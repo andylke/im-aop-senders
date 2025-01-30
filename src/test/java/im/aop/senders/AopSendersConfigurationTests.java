@@ -2,9 +2,10 @@ package im.aop.senders;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import im.aop.senders.advice.afterreturning.SendToAfterReturningConfiguration;
-import im.aop.senders.advice.afterthrowing.SendToAfterThrowingConfiguration;
-import im.aop.senders.advice.before.SendToBeforeConfiguration;
+import im.aop.senders.advice.aftercommit.SendAfterCommitConfiguration;
+import im.aop.senders.advice.afterreturning.SendAfterReturningConfiguration;
+import im.aop.senders.advice.afterthrowing.SendAfterThrowingConfiguration;
+import im.aop.senders.advice.before.SendBeforeConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
@@ -29,34 +30,42 @@ class AopSendersConfigurationTests {
   }
 
   @Test
-  void sendToBeforeConfigurationNotNull() {
+  void sendBeforeConfigurationNotNull() {
     runner.run(
         (context) -> {
-          assertThat(context.getBean(SendToBeforeConfiguration.class))
+          assertThat(context.getBean(SendBeforeConfiguration.class))
               .isNotNull()
-              .isExactlyInstanceOf(SendToBeforeConfiguration.class);
+              .isExactlyInstanceOf(SendBeforeConfiguration.class);
         });
   }
 
-
   @Test
-  void sendToAfterReturningConfigurationNotNull() {
+  void sendAfterReturningConfigurationNotNull() {
     runner.run(
         (context) -> {
-          assertThat(context.getBean(SendToAfterReturningConfiguration.class))
+          assertThat(context.getBean(SendAfterReturningConfiguration.class))
               .isNotNull()
-              .isExactlyInstanceOf(SendToAfterReturningConfiguration.class);
+              .isExactlyInstanceOf(SendAfterReturningConfiguration.class);
         });
   }
 
-
   @Test
-  void sendToAfterThrowingConfigurationNotNull() {
+  void sendAfterThrowingConfigurationNotNull() {
     runner.run(
         (context) -> {
-          assertThat(context.getBean(SendToAfterThrowingConfiguration.class))
+          assertThat(context.getBean(SendAfterThrowingConfiguration.class))
               .isNotNull()
-              .isExactlyInstanceOf(SendToAfterThrowingConfiguration.class);
+              .isExactlyInstanceOf(SendAfterThrowingConfiguration.class);
+        });
+  }
+
+  @Test
+  void sendAfterCommitConfigurationNotNull() {
+    runner.run(
+        (context) -> {
+          assertThat(context.getBean(SendAfterCommitConfiguration.class))
+              .isNotNull()
+              .isExactlyInstanceOf(SendAfterCommitConfiguration.class);
         });
   }
 }

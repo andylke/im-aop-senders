@@ -1,8 +1,9 @@
 package im.aop.senders;
 
-import im.aop.senders.advice.afterreturning.SendToAfterReturningConfiguration;
-import im.aop.senders.advice.afterthrowing.SendToAfterThrowingConfiguration;
-import im.aop.senders.advice.before.SendToBeforeConfiguration;
+import im.aop.senders.advice.aftercommit.SendAfterCommitConfiguration;
+import im.aop.senders.advice.afterreturning.SendAfterReturningConfiguration;
+import im.aop.senders.advice.afterthrowing.SendAfterThrowingConfiguration;
+import im.aop.senders.advice.before.SendBeforeConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -14,8 +15,10 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties({AopSendersProperties.class})
-@Import({SendToBeforeConfiguration.class, SendToAfterReturningConfiguration.class,
-    SendToAfterThrowingConfiguration.class})
-public class AopSendersConfiguration {
-
-}
+@Import({
+  SendBeforeConfiguration.class,
+  SendAfterReturningConfiguration.class,
+  SendAfterThrowingConfiguration.class,
+  SendAfterCommitConfiguration.class
+})
+public class AopSendersConfiguration {}

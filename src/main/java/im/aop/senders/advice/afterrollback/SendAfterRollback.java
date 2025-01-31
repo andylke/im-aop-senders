@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation that indicates a method's return value or, together with the arguments value should be
- * sent to the specified destination after successfully committed the transaction.
+ * sent to the specified destination after rollback the transaction due to an exception.
  *
  * @author Andy Lian
  */

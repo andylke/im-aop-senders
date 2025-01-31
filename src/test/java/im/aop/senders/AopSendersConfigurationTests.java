@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import im.aop.senders.advice.aftercommit.SendAfterCommitConfiguration;
 import im.aop.senders.advice.afterreturning.SendAfterReturningConfiguration;
+import im.aop.senders.advice.afterrollback.SendAfterRollbackConfiguration;
 import im.aop.senders.advice.afterthrowing.SendAfterThrowingConfiguration;
 import im.aop.senders.advice.before.SendBeforeConfiguration;
 import im.aop.senders.advice.beforecommit.SendBeforeCommitConfiguration;
@@ -77,6 +78,16 @@ class AopSendersConfigurationTests {
           assertThat(context.getBean(SendAfterCommitConfiguration.class))
               .isNotNull()
               .isExactlyInstanceOf(SendAfterCommitConfiguration.class);
+        });
+  }
+
+  @Test
+  void sendAfterRollbackConfigurationNotNull() {
+    runner.run(
+        (context) -> {
+          assertThat(context.getBean(SendAfterRollbackConfiguration.class))
+              .isNotNull()
+              .isExactlyInstanceOf(SendAfterRollbackConfiguration.class);
         });
   }
 }

@@ -6,6 +6,7 @@ import im.aop.senders.advice.aftercommit.SendAfterCommitConfiguration;
 import im.aop.senders.advice.afterreturning.SendAfterReturningConfiguration;
 import im.aop.senders.advice.afterthrowing.SendAfterThrowingConfiguration;
 import im.aop.senders.advice.before.SendBeforeConfiguration;
+import im.aop.senders.advice.beforecommit.SendBeforeCommitConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
@@ -56,6 +57,16 @@ class AopSendersConfigurationTests {
           assertThat(context.getBean(SendAfterThrowingConfiguration.class))
               .isNotNull()
               .isExactlyInstanceOf(SendAfterThrowingConfiguration.class);
+        });
+  }
+
+  @Test
+  void sendBeforeCommitConfigurationNotNull() {
+    runner.run(
+        (context) -> {
+          assertThat(context.getBean(SendBeforeCommitConfiguration.class))
+              .isNotNull()
+              .isExactlyInstanceOf(SendBeforeCommitConfiguration.class);
         });
   }
 

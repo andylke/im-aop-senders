@@ -1,4 +1,4 @@
-package im.aop.senders.advice.aftercommit;
+package im.aop.senders.advice.beforecommit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,33 +15,31 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
- * Tests for {@link SendAfterCommitAdvice}.
+ * Tests for {@link SendBeforeCommitAdvice}.
  *
  * @author Andy Lian
  */
 @ExtendWith(OutputCaptureExtension.class)
-class SendAfterCommitAdviceTests {
+class SendBeforeCommitAdviceTests {
 
   private final ApplicationContextRunner runner =
       new ApplicationContextRunner()
-          .withUserConfiguration(SendAfterCommitAdviceTestConfiguration.class)
-          .withBean(SendAfterCommitAdvice.class)
+          .withUserConfiguration(SendBeforeCommitAdviceTestConfiguration.class)
+          .withBean(SendBeforeCommitAdvice.class)
           .withBean(AopSendersProperties.class);
 
   @EnableAspectJAutoProxy
   @TestConfiguration(proxyBeanMethods = false)
-  static class SendAfterCommitAdviceTestConfiguration {
+  static class SendBeforeCommitAdviceTestConfiguration {
 
     @Bean
-    public SendAfterCommitService sendAfterCommitService(
+    public SendBeforeCommitService sendBeforeService(
         final AopSendersProperties aopSendersProperties) {
-      return new SendAfterCommitService(aopSendersProperties) {
-
+      return new SendBeforeCommitService(aopSendersProperties) {
         @Override
-        public void sendAfterCommit(
-            JoinPoint joinPoint, SendAfterCommit sendAfterCommit, Object returnedValue) {
+        public void sendBeforeCommit(JoinPoint joinPoint, SendBeforeCommit sendBeforeCommit) {
           LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType())
-              .info("joinPoint={}, returnedValue={}", joinPoint, returnedValue);
+              .info("{}", joinPoint);
         }
       };
     }
@@ -49,18 +47,18 @@ class SendAfterCommitAdviceTests {
 
   static class TestMethodContext {
 
-    @SendAfterCommit
+    @SendBeforeCommit
     public void methodWithoutParameter() {}
 
-    @SendAfterCommit
+    @SendBeforeCommit
     public void methodWithParameter(String foo) {}
 
-    @SendAfterCommit
+    @SendBeforeCommit
     public String methodWithResult() {
       return "foo";
     }
 
-    @SendAfterCommit
+    @SendBeforeCommit
     @Override
     public String toString() {
       return super.toString();
@@ -78,10 +76,9 @@ class SendAfterCommitAdviceTests {
 
               assertThat(capturedOutput)
                   .contains(
-                      "joinPoint=execution(void "
+                      "execution(void "
                           + TestMethodContext.class.getName()
-                          + ".methodWithoutParameter())")
-                  .contains("returnedValue=null");
+                          + ".methodWithoutParameter())");
             });
   }
 
@@ -96,10 +93,9 @@ class SendAfterCommitAdviceTests {
 
               assertThat(capturedOutput)
                   .contains(
-                      "joinPoint=execution(void "
+                      "execution(void "
                           + TestMethodContext.class.getName()
-                          + ".methodWithParameter(String))")
-                  .contains("returnedValue=null");
+                          + ".methodWithParameter(String))");
             });
   }
 
@@ -114,10 +110,9 @@ class SendAfterCommitAdviceTests {
 
               assertThat(capturedOutput)
                   .contains(
-                      "joinPoint=execution(String "
+                      "execution(String "
                           + TestMethodContext.class.getName()
-                          + ".methodWithResult())")
-                  .contains("returnedValue=foo");
+                          + ".methodWithResult())");
             });
   }
 
@@ -132,10 +127,7 @@ class SendAfterCommitAdviceTests {
 
               assertThat(capturedOutput)
                   .contains(
-                      "joinPoint=execution(String "
-                          + TestMethodContext.class.getName()
-                          + ".toString())")
-                  .contains("returnedValue=" + TestMethodContext.class.getName());
+                      "execution(String " + TestMethodContext.class.getName() + ".toString())");
             });
   }
 }

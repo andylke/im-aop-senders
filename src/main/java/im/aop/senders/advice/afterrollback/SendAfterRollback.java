@@ -1,4 +1,4 @@
-package im.aop.senders.advice.aftercommit;
+package im.aop.senders.advice.afterrollback;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
-public @interface SendAfterCommit {
+public @interface SendAfterRollback {
 
   /**
    * SpEL expression to be evaluated against the returned value and method parameters, then used as

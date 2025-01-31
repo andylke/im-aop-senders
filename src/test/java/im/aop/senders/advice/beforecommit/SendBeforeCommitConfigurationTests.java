@@ -1,4 +1,4 @@
-package im.aop.senders.advice.aftercommit;
+package im.aop.senders.advice.beforecommit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -7,34 +7,34 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 /**
- * Tests for {@link SendAfterCommitConfiguration}.
+ * Tests for {@link SendBeforeCommitConfiguration}.
  *
  * @author Andy Lian
  */
-class SendAfterCommitConfigurationTests {
+class SendBeforeCommitConfigurationTests {
 
   private final ApplicationContextRunner runner =
       new ApplicationContextRunner()
-          .withUserConfiguration(SendAfterCommitConfiguration.class)
+          .withUserConfiguration(SendBeforeCommitConfiguration.class)
           .withBean(AopSendersProperties.class);
 
   @Test
-  void sendAfterCommitAdviceNotNull() {
+  void sendBeforeCommitAdviceNotNull() {
     runner.run(
         (context) -> {
-          assertThat(context.getBean(SendAfterCommitAdvice.class))
+          assertThat(context.getBean(SendBeforeCommitAdvice.class))
               .isNotNull()
-              .isExactlyInstanceOf(SendAfterCommitAdvice.class);
+              .isExactlyInstanceOf(SendBeforeCommitAdvice.class);
         });
   }
 
   @Test
-  void sendAfterCommitServiceNotNull() {
+  void sendBeforeCommitServiceNotNull() {
     runner.run(
         (context) -> {
-          assertThat(context.getBean(SendAfterCommitService.class))
+          assertThat(context.getBean(SendBeforeCommitService.class))
               .isNotNull()
-              .isExactlyInstanceOf(SendAfterCommitService.class);
+              .isExactlyInstanceOf(SendBeforeCommitService.class);
         });
   }
 }

@@ -33,7 +33,7 @@ class SendAfterReturningAdviceTests {
   static class SendAfterReturningAdviceTestConfiguration {
 
     @Bean
-    public SendAfterReturningService executeAfterReturningService(
+    public SendAfterReturningService sendAfterReturningService(
         final AopSendersProperties aopSendersProperties) {
       return new SendAfterReturningService(aopSendersProperties) {
 

@@ -1,4 +1,4 @@
-package im.aop.senders.advice.aftercommit;
+package im.aop.senders.advice.afterrollback;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,31 +15,31 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
- * Tests for {@link SendAfterCommitAdvice}.
+ * Tests for {@link SendAfterRollbackAdvice}.
  *
  * @author Andy Lian
  */
 @ExtendWith(OutputCaptureExtension.class)
-class SendAfterCommitAdviceTests {
+class SendAfterRollbackAdviceTests {
 
   private final ApplicationContextRunner runner =
       new ApplicationContextRunner()
-          .withUserConfiguration(SendAfterCommitAdviceTestConfiguration.class)
-          .withBean(SendAfterCommitAdvice.class)
+          .withUserConfiguration(SendAfterRollbackAdviceTestConfiguration.class)
+          .withBean(SendAfterRollbackAdvice.class)
           .withBean(AopSendersProperties.class);
 
   @EnableAspectJAutoProxy
   @TestConfiguration(proxyBeanMethods = false)
-  static class SendAfterCommitAdviceTestConfiguration {
+  static class SendAfterRollbackAdviceTestConfiguration {
 
     @Bean
-    public SendAfterCommitService sendAfterCommitService(
+    public SendAfterRollbackService sendAfterRollbackService(
         final AopSendersProperties aopSendersProperties) {
-      return new SendAfterCommitService(aopSendersProperties) {
+      return new SendAfterRollbackService(aopSendersProperties) {
 
         @Override
-        public void sendAfterCommit(
-            JoinPoint joinPoint, SendAfterCommit sendAfterCommit, Object returnedValue) {
+        public void sendAfterRollback(
+            JoinPoint joinPoint, SendAfterRollback sendAfterRollback, Object returnedValue) {
           LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType())
               .info("joinPoint={}, returnedValue={}", joinPoint, returnedValue);
         }
@@ -49,18 +49,18 @@ class SendAfterCommitAdviceTests {
 
   static class TestMethodContext {
 
-    @SendAfterCommit
+    @SendAfterRollback
     public void methodWithoutParameter() {}
 
-    @SendAfterCommit
+    @SendAfterRollback
     public void methodWithParameter(String foo) {}
 
-    @SendAfterCommit
+    @SendAfterRollback
     public String methodWithResult() {
       return "foo";
     }
 
-    @SendAfterCommit
+    @SendAfterRollback
     @Override
     public String toString() {
       return super.toString();

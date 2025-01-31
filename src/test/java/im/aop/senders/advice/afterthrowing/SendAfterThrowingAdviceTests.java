@@ -34,7 +34,7 @@ class SendAfterThrowingAdviceTests {
   static class SendAfterThrowingAdviceTestConfiguration {
 
     @Bean
-    public SendAfterThrowingService ExecuteAfterThrowingService(
+    public SendAfterThrowingService sendAfterThrowingService(
         final AopSendersProperties aopSendersProperties) {
       return new SendAfterThrowingService(aopSendersProperties) {
 

@@ -33,7 +33,7 @@ class SendBeforeAdviceTests {
   static class SendBeforeAdviceTestConfiguration {
 
     @Bean
-    public SendBeforeService executeBeforeService(final AopSendersProperties aopSendersProperties) {
+    public SendBeforeService sendBeforeService(final AopSendersProperties aopSendersProperties) {
       return new SendBeforeService(aopSendersProperties) {
         @Override
         public void sendBefore(JoinPoint joinPoint, SendBefore sendBefore) {

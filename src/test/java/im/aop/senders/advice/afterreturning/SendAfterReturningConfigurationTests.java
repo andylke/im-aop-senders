@@ -19,7 +19,7 @@ class SendAfterReturningConfigurationTests {
           .withBean(AopSendersProperties.class);
 
   @Test
-  void sendBeforeAdviceNotNull() {
+  void sendAfterReturningAdviceNotNull() {
     runner.run(
         (context) -> {
           assertThat(context.getBean(SendAfterReturningAdvice.class))
@@ -29,7 +29,7 @@ class SendAfterReturningConfigurationTests {
   }
 
   @Test
-  void sendBeforeServiceNotNull() {
+  void sendAfterReturningServiceNotNull() {
     runner.run(
         (context) -> {
           assertThat(context.getBean(SendAfterReturningService.class))
